@@ -38,9 +38,13 @@ I also got a OpenSSH key from nmap scan, displayed below:
 |_  256 86:25:e8:aa:e7:f6:df:26:20:66:16:bb:02:ea:31:e1 (ED25519)
 ```
 When I open the website, it show this:
+
 ![image](https://files.catbox.moe/b3sfih.png)
+
 __More basic connection__ leads to `netcat`. Trying to make a connection using `netcat` will respond like this:
+
 ![image](https://files.catbox.moe/zpm48v.png)
+
 It's look like a **Python shell environment**. While wondering around, I found an email like this:
 ```
 print(open('/var/mail/think', 'r').read())                                                                                                                                      
@@ -144,7 +148,7 @@ Changes not staged for commit:
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 You see that? A file got deleted, named `pyrat.py`. Thanksfully that `think` haven't commit it yet, so we can restore it easily. After restore the file, I got `pyrat.py`. Now let's check what's inside.
-```
+```python
 ----------------------------------------------------------
 def switch_case(client_socket, data):
     if data == 'some_endpoint':
@@ -172,7 +176,7 @@ def shell(client_socket):
 ----------------------------------------------------------
 ```
 Look like the file got a bit messed up, so we cannot read all the file. But this reminds me that, the intro told me that I need to discover a something called "special endpoint". Let's write a Python script to fuzz the endpoint.
-```
+```python
 import socket
 
 def fuzzendpoint(ip, port, endpoints):
